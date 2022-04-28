@@ -1,7 +1,6 @@
 .data
 	arr__2:
 		.word 12, 24, 35, 41, 52, 60, 76, 82, 91, 100
-
 __t0:
 	.asciiz "Enter the key to search for: "
 __t9:
@@ -16,9 +15,7 @@ __t19:
 .globl main
 
 main:
-
 move $s8, $sp
-
 li $t0, 0
 la $t1, __t0
 li $v0, 4

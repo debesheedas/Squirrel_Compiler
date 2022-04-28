@@ -468,7 +468,9 @@ class CodeGen:
             blocks = self.eliminate_dead_code(
                 blocks, symbol_table, optimization_level)
             # print("Dead code elimination done --------------------------------------------------------------------------")
+        # print("Optimized code:")
         # print(*blocks, sep='\n%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n')
+
         # All optimizations are completed and Live Analysis of the blocks starts here
 
         for block in blocks:

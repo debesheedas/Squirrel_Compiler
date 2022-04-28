@@ -1,87 +1,129 @@
 start:
 params 0
 
-int a`2[36]
-a`2[0] = 1
-a`2[4] = 2
-a`2[8] = 3
-a`2[12] = 4
-a`2[16] = 5
-a`2[20] = 6
-a`2[24] = 7
-a`2[28] = 8
-a`2[32] = 9
+float arr`2[40]
+arr`2[0] = 12.0
+arr`2[4] = 2.0
+arr`2[8] = 4.4
+arr`2[12] = 56.25
+arr`2[16] = 87.1
+arr`2[20] = 9.0
+arr`2[24] = 9.0
+arr`2[28] = 0.0
+arr`2[32] = -2.5
+arr`2[36] = 4.0
 
 #L10:
-int transpose`2[36]
-transpose`2[0] = 0
-transpose`2[4] = 0
-transpose`2[8] = 0
-transpose`2[12] = 0
-transpose`2[16] = 0
-transpose`2[20] = 0
-transpose`2[24] = 0
-transpose`2[28] = 0
-transpose`2[32] = 0
-
+temp`2 = (int) 0
 #L8:
+a`2 = (int) 0
+#L6:
+b`2 = (int) 0
+#L4:
 ~t0 = 0
 
 i`3 = (int) ~t0
 
 #L15:
 
-~t1 = 3
+~t1 = 10
 
 if i`3 < ~t1 goto #L16
 goto #L13
 
 #L16:
 
-~t4 = 0
 
-j`4 = (int) ~t4
 
-#L22:
+~t4 = i`3 * 1
 
-~t5 = 3
+~t5 = ~t4 * 4
+~tf0 = arr`2[~t5]
 
-if j`4 < ~t5 goto #L23
-goto #L20
+~t6 = (int) ~tf0
+a`2 = ~t6
+
+#L21:
+
+~t7 = 1
+
+~t8 = i`3 + ~t7
+
+j`4 = (int) ~t8
+
+#L26:
+
+~t9 = 10
+
+if j`4 < ~t9 goto #L27
+goto #L24
+
+#L27:
+
+
+
+~t12 = j`4 * 1
+
+~t13 = ~t12 * 4
+~tf1 = arr`2[~t13]
+
+~t14 = (int) ~tf1
+b`2 = ~t14
+
+#L30:
+
+
+if a`2 < b`2 goto #L33
+goto #L32
+
+#L33:
+
+
+
+temp`2 = a`2
+
+#L38:
+
+~t15 = i`3 * 1
+
+~t16 = ~t15 * 4
+
+
+~t17 = (int) b`2
+arr`2[~t16] = ~t17
+
+#L36:
+
+~t18 = j`4 * 1
+
+~t19 = ~t18 * 4
+
+
+~t20 = (int) temp`2
+arr`2[~t19] = ~t20
+
+#L34:
+
+#L32:
+
+
+~t10 = 1
+
+~t11 = j`4 + ~t10
+
+j`4 = ~t11
+
+goto #L26
+#L24:
 
 #L23:
 
+~t21 = i`3 * 1
 
-~t8 = j`4 * 3
-~t9 = i`3 * 1
-~t10 = ~t8 + ~t9
+~t22 = ~t21 * 4
+output float, arr`2[~t22]
 
-~t11 = ~t10 * 4
-
-
-~t12 = i`3 * 3
-~t13 = j`4 * 1
-~t14 = ~t12 + ~t13
-
-~t15 = ~t14 * 4
-~t16 = a`2[~t15]
-
-~t17 = (int) ~t16
-transpose`2[~t11] = ~t17
-
-#L24:
-
-
-~t6 = 1
-
-~t7 = j`4 + ~t6
-
-j`4 = ~t7
-
-goto #L22
-#L20:
-
-#L19:
+#L17:
 
 
 ~t2 = 1
@@ -94,77 +136,6 @@ goto #L15
 #L13:
 
 #L12:
-~t18 = (string) "\nTranspose of the matrix:\n"
-output string, ~t18
-
-#L4:
-~t19 = 0
-
-i`5 = (int) ~t19
-
-#L29:
-
-~t20 = 3
-
-if i`5 < ~t20 goto #L30
-goto #L27
-
-#L30:
-
-~t23 = 0
-
-j`6 = (int) ~t23
-
-#L38:
-
-~t24 = 3
-
-if j`6 < ~t24 goto #L39
-goto #L36
-
-#L39:
-
-
-~t27 = i`5 * 3
-~t28 = j`6 * 1
-~t29 = ~t27 + ~t28
-
-~t30 = ~t29 * 4
-output int, transpose`2[~t30]
-
-#L42:
-~t31 = (string) " "
-output string, ~t31
-
-#L40:
-
-
-~t25 = 1
-
-~t26 = j`6 + ~t25
-
-j`6 = ~t26
-
-goto #L38
-#L36:
-
-#L35:
-~t32 = (string) "\n"
-output string, ~t32
-
-#L31:
-
-
-~t21 = 1
-
-~t22 = i`5 + ~t21
-
-i`5 = ~t22
-
-goto #L29
-#L27:
-
-#L26:
 return 
 
 #L1:

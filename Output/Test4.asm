@@ -1,15 +1,7 @@
 .data
-	a__2:
-		.word 1, 2, 3, 4, 5, 6, 7, 8, 9
-	transpose__2:
-		.word 0, 0, 0, 0, 0, 0, 0, 0, 0
+	arr__2:
+		.float 12.0, 2.0, 4.4, 56.25, 87.1, 9.0, 9.0, 0.0, -2.5, 4.0
 
-__t18:
-	.asciiz "\nTranspose of the matrix:\n"
-__t31:
-	.asciiz " "
-__t32:
-	.asciiz "\n"
 .text
 .globl main
 
@@ -18,159 +10,128 @@ main:
 move $s8, $sp
 
 li $t0, 0
-addi $t1, $t0, 0
-_L15:
-li $t2, 3
-sub $t3, $t1, $t2
-blt $t3, $zero, _L16
-j _L13
-_L16:
+li $t1, 0
+li $t2, 0
 li $t3, 0
 addi $t4, $t3, 0
-_L22:
-li $t5, 3
+_L15:
+li $t5, 10
 sub $t6, $t4, $t5
-blt $t6, $zero, _L23
-j _L20
-_L23:
-li $t6, 3
+blt $t6, $zero, _L16
+j _L13
+_L16:
+li $t6, 1
 mult $t4, $t6
 mflo $t6
-li $t7, 1
-mult $t1, $t7
+li $t7, 4
+mult $t6, $t7
 mflo $t7
-add $s0, $t6, $t7
-li $s1, 4
-mult $s0, $s1
-mflo $s1
-li $s2, 3
-mult $t1, $s2
-mflo $s2
-li $s3, 1
-mult $t4, $s3
-mflo $s3
-add $s4, $s2, $s3
-li $s5, 4
-mult $s4, $s5
+l.s $f3, arr__2($t7)
+cvt.w.s $f1, $f3
+mfc1 $s0, $f1
+addi $t1, $s0, 0
+li $s1, 1
+add $s2, $t4, $s1
+addi $s3, $s2, 0
+_L26:
+li $s4, 10
+sub $s5, $s3, $s4
+blt $s5, $zero, _L27
+j _L24
+_L27:
+li $s5, 1
+mult $s3, $s5
 mflo $s5
-lw $s5, a__2($s5)
-addi $s6, $s5, 0
-sw $s6, transpose__2($s1)
-li $s7, 1
-add $t8, $t4, $s7
-addi $t4, $t8, 0
-j _L22
-_L20:
-li $t9, 1
+li $s6, 4
+mult $s5, $s6
+mflo $s6
+l.s $f4, arr__2($s6)
+cvt.w.s $f1, $f4
+mfc1 $s7, $f1
+addi $t2, $s7, 0
+sub $t8, $t1, $t2
+blt $t8, $zero, _L33
+j _L32
+_L33:
+addi $t0, $t1, 0
+li $t8, 1
+mult $t4, $t8
+mflo $t8
+li $t9, 4
+mult $t8, $t9
+mflo $t9
 addi $sp, $sp, -4
 sw $t9, 4($sp)
-add $t9, $t1, $t9
-addi $t1, $t9, 0
+addi $t9, $t2, 0
+addi $sp, $sp, -4
+sw $t9, 4($sp)
+lw $t9, 0($s8)
+s.s $t9, arr__2($t9)
+sw $t9, 0($s8)
+sw $t9, 0($s8)
+li $t9, 1
+li $t9, 1
+mult $s3, $t9
+mflo $t9
+addi $sp, $sp, -4
+sw $t9, 4($sp)
+sw $t9, -8($s8)
+li $t9, 4
+li $t9, 4
+mult $t9, $t9
+mflo $t9
+addi $sp, $sp, -4
+sw $t9, 4($sp)
+addi $t9, $t0, 0
+addi $sp, $sp, -4
+sw $t9, 4($sp)
+lw $t9, -12($s8)
+s.s $t9, arr__2($t9)
+_L32:
+addi $sp, $sp, -4
+sw $s3, 4($sp)
+li $s3, 1
+addi $sp, $sp, -4
+sw $s3, 4($sp)
+sw $s3, -24($s8)
+lw $s3, -24($s8)
+add $s3, $s3, $s3
+addi $sp, $sp, -4
+sw $s3, 4($sp)
+addi $s3, $s3, 0
+j _L26
+_L24:
+addi $sp, $sp, -4
+sw $t4, 4($sp)
+sw $t4, -32($s8)
+li $t4, 1
+li $t4, 1
+mult $t4, $t4
+mflo $t4
+addi $sp, $sp, -4
+sw $t4, 4($sp)
+sw $t4, -36($s8)
+li $t4, 4
+li $t4, 4
+mult $t4, $t4
+mflo $t4
+l.s $f5, arr__2($t4)
+mov.s $f12, $f5
+li $v0, 2
+syscall
+addi $sp, $sp, -4
+sw $t4, 4($sp)
+li $t4, 1
+addi $sp, $sp, -4
+sw $t4, 4($sp)
+sw $t4, -44($s8)
+lw $t4, -44($s8)
+add $t4, $t4, $t4
+addi $sp, $sp, -4
+sw $t4, 4($sp)
+addi $t4, $t4, 0
 j _L15
 _L13:
-addi $sp, $sp, -4
-sw $t9, 4($sp)
-la $t9, __t18
-li $v0, 4
-la $a0, __t18
-syscall
-addi $sp, $sp, -4
-sw $t9, 4($sp)
-li $t9, 0
-addi $sp, $sp, -4
-sw $t9, 4($sp)
-addi $t9, $t9, 0
-_L29:
-addi $sp, $sp, -4
-sw $t9, 4($sp)
-li $t9, 3
-addi $sp, $sp, -4
-sw $t9, 4($sp)
-sub $t9, $t9, $t9
-blt $t9, $zero, _L30
-j _L27
-_L30:
-sw $t9, -16($s8)
-li $t9, 0
-addi $sp, $sp, -4
-sw $t9, 4($sp)
-addi $t9, $t9, 0
-_L38:
-addi $sp, $sp, -4
-sw $t9, 4($sp)
-li $t9, 3
-addi $sp, $sp, -4
-sw $t9, 4($sp)
-sub $t9, $t9, $t9
-blt $t9, $zero, _L39
-j _L36
-_L39:
-sw $t9, -28($s8)
-sw $t9, -28($s8)
-li $t9, 3
-li $t9, 3
-mult $t9, $t9
-mflo $t9
-addi $sp, $sp, -4
-sw $t9, 4($sp)
-sw $t9, -36($s8)
-li $t9, 1
-li $t9, 1
-mult $t9, $t9
-mflo $t9
-addi $sp, $sp, -4
-sw $t9, 4($sp)
-sw $t9, -40($s8)
-lw $t9, -40($s8)
-add $t9, $t9, $t9
-addi $sp, $sp, -4
-sw $t9, 4($sp)
-sw $t9, -44($s8)
-li $t9, 4
-li $t9, 4
-mult $t9, $t9
-mflo $t9
-lw $t9, transpose__2($t9)
-move $a0, $t9
-li $v0, 1
-syscall
-addi $sp, $sp, -4
-sw $t9, 4($sp)
-la $t9, __t31
-li $v0, 4
-la $a0, __t31
-syscall
-addi $sp, $sp, -4
-sw $t9, 4($sp)
-li $t9, 1
-addi $sp, $sp, -4
-sw $t9, 4($sp)
-sw $t9, -56($s8)
-lw $t9, -56($s8)
-add $t9, $t9, $t9
-addi $sp, $sp, -4
-sw $t9, 4($sp)
-addi $t9, $t9, 0
-j _L38
-_L36:
-sw $t9, -28($s8)
-la $t9, __t32
-li $v0, 4
-la $a0, __t32
-syscall
-addi $sp, $sp, -4
-sw $t9, 4($sp)
-li $t9, 1
-addi $sp, $sp, -4
-sw $t9, 4($sp)
-sw $t9, -68($s8)
-lw $t9, -68($s8)
-add $t9, $t9, $t9
-addi $sp, $sp, -4
-sw $t9, 4($sp)
-addi $t9, $t9, 0
-j _L29
-_L27:
 move $sp, $s8
 jr $ra
 

@@ -1,31 +1,20 @@
 void @start(){
-    int a[3][3]={1,2,3,4,5,6,7,8,9};
-    int transpose[3][3]={0,0,0,0,0,0,0,0,0};
+    float arr[10] = {12.0,2.0,4.4,56.25,87.1,9.0,9.0,0.0,-2.5,4.0};
 
-    ``output("Enter matrix elements:\n");
-    for (int i = 0; i < 3; i=i+1){
-        for (int j = 0; j < 3; j=j+1) {
-            output("Enter element (");
-            output(i);
-            output(", ");
-            output(j);
-            output("): ");
-            input(a[i][j]);
-        }
-    }``
+    int temp;
+    int a;
+    int b;
 
-    for (int i = 0; i < 3; i=i+1){
-        for (int j = 0; j < 3; j=j+1) {
-            transpose[j][i] = a[i][j];
+    for(int i=0; i<10; i=i+1){
+        a=arr[i];
+        for(int j=i+1;j<10;j=j+1){
+            b=arr[j];
+            if(a<b){
+                temp = a;
+                arr[i] = b;
+                arr[j] = temp;
+            }
         }
-    }
-
-    output("\nTranspose of the matrix:\n");
-    for (int i = 0; i < 3; i=i+1){
-        for (int j = 0; j < 3; j=j+1) {
-            output(transpose[i][j]);
-            output(" ");
-        }
-        output("\n");
+        output(arr[i]);
     }
 }

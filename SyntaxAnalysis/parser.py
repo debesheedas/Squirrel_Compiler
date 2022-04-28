@@ -57,7 +57,7 @@ class Parser(SlyParser):
     def error(self, p):
         """Function to raise custom errors for the parser, suppressing the stack trace, takes the error message as parameter"""
         if p:
-            print("Syntax error at line", str(p.lineno) + ":", p.value)
+            print("Syntax error at line", str(p.lineno-1) + ":", p.value)
         else:
             print("Syntax error at EOF")
 

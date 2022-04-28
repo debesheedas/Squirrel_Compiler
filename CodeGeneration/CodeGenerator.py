@@ -1383,11 +1383,13 @@ class CodeGenerator:
                     reg = [i for i in range(3)]
                     spill = [0, 0, 0]
 
-                    reg[0], spill[0], _ = self.get_reg(False,
+                    operand_type = self.get_data_type(left, symbol_table)
+
+                    reg[0], spill[0], _ = self.get_reg(operand_type=='float',
                                                        live_and_next_use_blocks, blocks.index(block), left)
-                    reg[1], spill[1], _ = self.get_reg(False,
+                    reg[1], spill[1], _ = self.get_reg(operand_type=='float',
                                                        live_and_next_use_blocks, blocks.index(block), right)
-                    reg[2], spill[2], _ = self.get_reg(False,
+                    reg[2], spill[2], _ = self.get_reg(operand_type=='float',
                                                        live_and_next_use_blocks, blocks.index(block), "~")
 
                     if spill[0] == 1:
