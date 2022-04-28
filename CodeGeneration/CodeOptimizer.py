@@ -51,9 +51,9 @@ class CodeGen:
                 self.DFS(visited, graph, neighbour)
 
     def eliminate_dead_code(self, blocks, symbol_table, optimization_level):
-        # print("calling eliminate_dead_code")
-        # print("================================================")
-        # print("Initial Block Structure")
+        # # print("calling eliminate_dead_code")
+        # # print("================================================")
+        # # print("Initial Block Structure")
         full_code = '\n'.join(blocks)
         all_lines = full_code.split('\n')
 
@@ -74,32 +74,32 @@ class CodeGen:
                 #     block = '\n'.join(block.split('\n')[:-1])
                 blocks_current.append(block)
         for index, block in enumerate(blocks_current):
-            # print(block)
-            # print("----------------------------------------------")
+            # # print(block)
+            # # print("----------------------------------------------")
             new_node = Node(index, block)
             CFG.append(new_node)
-            # print("leading label: ", new_node.leading_label)
-            # print(new_node.index, len(new_node.code_block), new_node.code_block)
+            # # print("leading label: ", new_node.leading_label)
+            # # print(new_node.index, len(new_node.code_block), new_node.code_block)
 
         # Find all the function calls and
         for i in range(1, len(CFG)):
             block = CFG[i-1].code_block
-            # print('before call check')
+            # # print('before call check')
             last_line = block.split('\n')[-1]
-            # print(last_line)
+            # # print(last_line)
             if len(last_line.split(' ')) >= 3 and last_line.split(' ')[-3] == 'call':
-                # print("Enter call check")
+                # # print("Enter call check")
                 funct = last_line.split(' ')[-2].split(',')[0]
                 CFG[i].function_next = funct
 
-        # print("================================================")
+        # # print("================================================")
 
         # Start creating Control Flow Graph connections
         for node in CFG:
             last_line = node.code_block.split('\n')[-1]
             # last_line = node.code_block.rstrip('\n').split('\n')[-1]
             words = last_line.split(' ')
-            # print(last_line)
+            # # print(last_line)
             if (len(words) >= 1 and (words[0] == 'goto' or words[0] == 'return')) or 'call' in words:
                 # The direct goto statements (without condition)
                 if words[0] == 'goto':
@@ -135,7 +135,7 @@ class CodeGen:
 
                     if not word.startswith('#L') and word.endswith(':'):
                         word = word.split(':')[0]
-                        # print("Function label found", word)
+                        # # print("Function label found", word)
                         for search_node in CFG:
                             if search_node.function_next is not None and search_node.function_next == word:
                                 node.next.add(search_node.index)
@@ -143,20 +143,20 @@ class CodeGen:
                     index -= 1
 
                 return_pointer += 1
-            # print('current line', words)
+            # # print('current line', words)
             if (len(words) > 2 and words[0] == 'call') or (len(words) > 4 and words[2] == 'call'):
-                # print("call found")
+                # # print("call found")
                 funct = words[-2].split(',')[0]
-                # print('index of this block: ', node.index)
+                # # print('index of this block: ', node.index)
                 for search_node in CFG:
                     if search_node.leading_label is not None and search_node.leading_label == funct:
                         node.next.add(search_node.index)
 
-            print("Current node index", node.index)
-            print('Current node code\n', node.code_block)
-            print('in case of a call -> Function next stores: ', node.function_next)
-            print('Next blocks', node.next)
-            print("================================================")
+            # print("Current node index", node.index)
+            # print('Current node code\n', node.code_block)
+            # print('in case of a call -> Function next stores: ', node.function_next)
+            # print('Next blocks', node.next)
+            # print("================================================")
 
         # The CFG is now completed - we now perform a depth first search to identify the dead code blocks
         # And block unfreachable from the start block is dead code
@@ -167,7 +167,7 @@ class CodeGen:
             if node.leading_label == 'start':
                 start_block = node
                 break
-        # print('start_block', start_block, type(start_block))
+        # # print('start_block', start_block, type(start_block))
         visited = set()
         # Call DFS and obtin the visited blocks
         self.DFS(visited=visited, graph=CFG, node=start_block)
@@ -177,9 +177,9 @@ class CodeGen:
         blocks = []
         for node in list_of_visited_blocks:
             blocks.append(node.code_block)
-            # print(node.index)
+            # # print(node.index)
 
-        # print(*blocks, sep = '\n%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n')
+        # # print(*blocks, sep = '\n%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n')
 
         return blocks
 
@@ -258,10 +258,10 @@ class CodeGen:
 
     def generate_target_code(self, intermediate_code, symbol_table, optimization_level):
 
-        # print("Generate target code starts here...")
-        # print('initial intermediate code--------------------------------------------------')
-        # print(intermediate_code)
-        # print("------------------------------------------------------------------------------")
+        # # print("Generate target code starts here...")
+        # # print('initial intermediate code--------------------------------------------------')
+        # # print(intermediate_code)
+        # # print("------------------------------------------------------------------------------")
         if not intermediate_code:
             # handle it more elegantly
             return ""
@@ -275,7 +275,7 @@ class CodeGen:
         global_vars = re.findall(
             r"@[^@]*@", intermediate_code)
 
-        print("global_vars: ", global_vars)
+        # print("global_vars: ", global_vars)
 
         intermediate_code = re.sub(r"@[^@]*@", '', intermediate_code)
 
@@ -283,7 +283,7 @@ class CodeGen:
             var_code = var_code[1:-1]
             intermediate_code = var_code + intermediate_code
 
-        print("intermediate code : ", intermediate_code)
+        # print("intermediate code : ", intermediate_code)
 
         """ The compiler allows 3 levels of optimization. O1, O2 and O3
         We associate 2 kinds of optimization with each level. """
@@ -315,12 +315,12 @@ class CodeGen:
                 else:
                     optimized_code1 += intermediate_code_list[i] + '\n'
                 i += 1
-            # print('optimized 0 code', optimized_code0)
+            # # print('optimized 0 code', optimized_code0)
             # ----------------------------------------------------------------
             # At the end of optimization level 1, redundant return statements are removed
 
-            # print("**********************************************************")
-            # print("optimized code 1", optimized_code1)
+            # # print("**********************************************************")
+            # # print("optimized code 1", optimized_code1)
             intermediate_code_final = optimized_code1
 
         if optimization_level >= 2:
@@ -358,9 +358,9 @@ class CodeGen:
                     optimized_code2 = optimized_code2.replace(l+':', '')
                     optimized_code2 = optimized_code2.replace(l, label)
 
-            # print(optimized_code2)
-            # print("**********************************************************")
-            # print("optimized code 2", optimized_code2)
+            # # print(optimized_code2)
+            # # print("**********************************************************")
+            # # print("optimized code 2", optimized_code2)
             # ----------------------------------------------------------------
             # Optimization Level 3 removes all the goto statements that occur in consecutive statements,
             # retains only the first one
@@ -411,9 +411,9 @@ class CodeGen:
                 i += 1
 
             intermediate_code_final = optimized_code4
-        print('*******************************************************************')
-        print(intermediate_code_final)
-        print('*******************************************************************')
+        # print('*******************************************************************')
+        # print(intermediate_code_final)
+        # print('*******************************************************************')
 
         blocks = []
         block_line = ""
@@ -459,16 +459,16 @@ class CodeGen:
         reserved_words = set(reserved_operators.split())
         live_and_next_use_blocks = []
 
-        print("Printing all the blocks")
+        # print("# printing all the blocks")
         # for block in blocks:
-        #     print(block)
-        print('-----------------------------------------------------------------')
+        #     # print(block)
+        # print('-----------------------------------------------------------------')
 
         if optimization_level >= 3:
             blocks = self.eliminate_dead_code(
                 blocks, symbol_table, optimization_level)
-            print("Dead code elimination done --------------------------------------------------------------------------")
-        print(*blocks, sep='\n%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n')
+            # print("Dead code elimination done --------------------------------------------------------------------------")
+        # print(*blocks, sep='\n%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n')
         # All optimizations are completed and Live Analysis of the blocks starts here
 
         for block in blocks:
@@ -532,7 +532,7 @@ class CodeGen:
 
                 else:
                     line = lines[i].split()
-                    # print(line)
+                    # # print(line)
                     if line[0] == 'if' or line[0] == 'ifFalse':
                         right_variables = [line[1], line[3]]
                         var_dict = {right_variables[0]: {
@@ -573,7 +573,7 @@ class CodeGen:
         code_segment = CodeGenerator.CodeGenerator().generate_mips_code(
             blocks, live_and_next_use_blocks, data_segment, self.array_addresses, symbol_table, self.data_segment_dict)
 
-        print("Printing the final Code segment")
+        # print("# printing the final Code segment")
         # Final Machine Dependent Optimization -> Removing redundant loads and stores
 
         final_code_segment = ''
@@ -588,7 +588,7 @@ class CodeGen:
                 memory2 = code_segment_lines[i+1].split(' ')[2]
 
                 if register1 == register2 and memory1 == memory2:
-                    # print(register1, memory1, register2, memory2)
+                    # # print(register1, memory1, register2, memory2)
                     i = i + 1
                 else: 
                     final_code_segment += code_segment_lines[i] + '\n'

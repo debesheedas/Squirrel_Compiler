@@ -153,11 +153,11 @@ class CodeGenerator:
                 return 'int'
         # In case of temporary variable, we directly use the naming convention to infer type
         # In case of user defined variable, we use the symbol table passed form the parser to infer the datatype
-        print('VARIABLE in get_DT: ' + variable)
+        # print('VARIABLE in get_DT: ' + variable)
         variable_type = None
         if variable.startswith("__"):
             # temp variable
-            print("TEMP VARIABLE")
+            # print("TEMP VARIABLE")
             if 'f' in variable:
                 variable_type = "float"
             else:
@@ -165,7 +165,7 @@ class CodeGenerator:
         else:
             # user variable
             variable_name = variable.split('__')[0]
-            print("foooo", variable_name)
+            # print("foooo", variable_name)
             variable_scope = variable.split('__')[1]
             variable_type = list(filter(
                 lambda var: var["identifier_name"] == variable_name +
@@ -186,7 +186,7 @@ class CodeGenerator:
         return False
 
     def is_function_call_with_return(self, instruction):
-        # print("instruction : " , instruction)
+        # # print("instruction : " , instruction)
         words = instruction.split()
         if len(words) < 5:
             return False
@@ -231,7 +231,7 @@ class CodeGenerator:
 
         # s`2 = (string) ""
         # s2`2 = (bool) false
-        print("instruction : ", instruction)
+        # print("instruction : ", instruction)
         if not self.is_if_statement(instruction) and '=' in instruction and instruction.split("=")[1].strip()[0] == '(':
             return True
         return False
@@ -337,7 +337,7 @@ class CodeGenerator:
         else:
             register_descriptor = self.register_descriptor
 
-        print('variable', variable, is_float)
+        # print('variable', variable, is_float)
         # if the variable is already contained in some register
         # No need to spill. Just return that register
         if is_float:
@@ -474,7 +474,7 @@ class CodeGenerator:
             register_descriptor = self.register_descriptor
 
         var = register_descriptor[register]
-        print('Printing in spill', register, var)
+        # print('# printing in spill', register, var)
         if var != None:
             if self.address_descriptor[var]['offset'] != None:
                 # if the memory space is already allocated
@@ -496,20 +496,20 @@ class CodeGenerator:
 
     def print_descriptors(self):
         # UNCOMMENT
-        # print()
+        # # print()
         # for var in self.address_descriptor:
-        #     print(var)
-        #     print("offset   :  ", self.address_descriptor[var]['offset'])
-        #     print("registers:  ", self.address_descriptor[var]['registers'])
+        #     # print(var)
+        #     # print("offset   :  ", self.address_descriptor[var]['offset'])
+        #     # print("registers:  ", self.address_descriptor[var]['registers'])
 
-        # # print("address_descriptor",self.address_descriptor)
-        # print()
+        # # # print("address_descriptor",self.address_descriptor)
+        # # print()
         # for reg in self.register_descriptor:
         #     if self.register_descriptor[reg]:
-        #         print(reg, "  :   ", self.register_descriptor[reg])
-        # # print("register_descriptor",self.register_descriptor)
-        # print()
-        # print(
+        #         # print(reg, "  :   ", self.register_descriptor[reg])
+        # # # print("register_descriptor",self.register_descriptor)
+        # # print()
+        # # print(
         #     "----------------------------------------------------------------------------")
         pass
 
@@ -627,7 +627,7 @@ class CodeGenerator:
                     'registers': [register]
                 }
 
-        print('end of update : ', protocol)
+        # print('end of update : ', protocol)
         self.print_descriptors()
 
     def generate_mips_code(self, blocks, live_and_next_use_blocks, data_segment, array_addresses, symbol_table, data_segment_dict):
@@ -661,7 +661,7 @@ class CodeGenerator:
                     # In our TAC for array initialization, after the declaration, there are num_of_elements lines of initialization
                     # These multiple lines have only constants which do not affect live analysis
                     # Hence we just skip these lines using the following for loop
-                    print(num_of_elements)
+                    # print(num_of_elements)
                     for _ in range(num_of_elements):
                         next(lines_generator)
 
@@ -677,7 +677,7 @@ class CodeGenerator:
 
                     self.text_segment += line+'\n'
 
-                    print("FUNCTION STARTED ", line+'\n')
+                    # print("FUNCTION STARTED ", line+'\n')
 # -------------------------------------------------------------------------------------------------
                 elif line.startswith("params"):
                     # Function parameter
@@ -749,7 +749,7 @@ class CodeGenerator:
                 #     subject, operand = line.split("=")
                 #     operand = operand[1:]
 
-                #     print("line: ", line)
+                #     # print("line: ", line)
 
                 #     if self.is_constant(operand):
                 #         if '[' in subject:
@@ -885,7 +885,7 @@ class CodeGenerator:
                 elif self.is_assignment_instruction_with_typecast(line):
                     subject, operand, cast_type, subject_type, operand_type = [
                         None]*5
-                    print("foo", line.split("="))
+                    # print("foo", line.split("="))
                     subject, cast_type, operand = line.split("=")[0], line.split("=")[
                         1].split()[0], line.split(")")[1]
 
@@ -893,7 +893,7 @@ class CodeGenerator:
                     operand = operand.strip()
 
                     cast_type = cast_type.strip()[1:-1]
-                    print("bar,", subject, cast_type, operand)
+                    # print("bar,", subject, cast_type, operand)
 
                     # Extracting subject_type
                     if '[' in subject:
@@ -950,7 +950,7 @@ class CodeGenerator:
                         reg0, spill0, update0 = self.get_reg(cast_type == 'float',
                                                              live_and_next_use_blocks, blocks.index(block), subject)
 
-                        # print("subject reg : ", subject, reg0)
+                        # # print("subject reg : ", subject, reg0)
 
                         if spill0 == 1:
                             self.spill_reg(reg0)
@@ -982,7 +982,7 @@ class CodeGenerator:
                         reg0, spill0, update0 = self.get_reg(cast_type == 'float',
                                                              live_and_next_use_blocks, blocks.index(block), subject)
 
-                        # print("subject reg : ", subject, reg0)
+                        # # print("subject reg : ", subject, reg0)
 
                         if spill0 == 1:
                             self.spill_reg(reg0)
@@ -1002,7 +1002,7 @@ class CodeGenerator:
                             'nospill', [reg0, subject])
 
                     elif operand[0] == '\"':
-                        print("STRING OPERAND", operand)
+                        # print("STRING OPERAND", operand)
                         reg0, spill0, _ = self.get_reg(
                             subject_type == 'float', live_and_next_use_blocks, blocks.index(block), subject)
 
@@ -1012,9 +1012,9 @@ class CodeGenerator:
 
                         self.text_segment += f"la {reg0}, {subject}\n"
                         # TODO : Update descriptors for load from data segment
-                        print("subject reg : ", subject, reg0)
-                        print("STRING", self.register_descriptor)
-                        print(self.address_descriptor)
+                        # print("subject reg : ", subject, reg0)
+                        # print("STRING", self.register_descriptor)
+                        # print(self.address_descriptor)
                         self.update_descriptors("nospill", [reg0, subject])
 
                     else:
@@ -1129,7 +1129,7 @@ class CodeGenerator:
                         # Get reg for subject ================================================
                         reg0, spill0, update0 = self.get_reg(subject_type == 'float',
                                                              live_and_next_use_blocks, blocks.index(block), subject)
-                        # print("subject reg : ", subject, reg0)
+                        # # print("subject reg : ", subject, reg0)
 
                         if spill0 == 1:
                             self.spill_reg(reg0)
@@ -1154,7 +1154,7 @@ class CodeGenerator:
                         reg0, spill0, update0 = self.get_reg(subject_type == 'float',
                                                              live_and_next_use_blocks, blocks.index(block), subject)
 
-                        # print("subject reg : ", subject, reg0)
+                        # # print("subject reg : ", subject, reg0)
 
                         if spill0 == 1:
                             self.spill_reg(reg0)
@@ -1167,7 +1167,7 @@ class CodeGenerator:
                             'nospill', [reg0, subject])
 
                     elif operand[0] == '\"':
-                        print("STRING OPERAND", operand)
+                        # print("STRING OPERAND", operand)
                         reg0, spill0, _ = self.get_reg(
                             subject_type == 'float', live_and_next_use_blocks, blocks.index(block), subject)
 
@@ -1178,9 +1178,9 @@ class CodeGenerator:
                         self.text_segment += f"la {reg0}, {subject}\n"
                         # TODO : Update descriptors for load from data segment
                         self.update_descriptors("nospill", [reg0, subject])
-                        print("subject reg1", subject, reg0)
-                        print("STRING", self.register_descriptor)
-                        print(self.address_descriptor)
+                        # print("subject reg1", subject, reg0)
+                        # print("STRING", self.register_descriptor)
+                        # print(self.address_descriptor)
 
                     elif '[' in operand:
                         array_name = operand.split('[')[0]
@@ -1260,7 +1260,7 @@ class CodeGenerator:
                             if register_descriptor[reg1] == None:
                                 # if the reg1 is empty
                                 # load the value into reg0 directly from the memory
-                                print("OPERAND", operand)
+                                # print("OPERAND", operand)
                                 offset = self.address_descriptor[operand]['offset']
                                 if operand_type == "float":
                                     self.text_segment += f"l.s {reg0}, {offset}($s8)\n"
@@ -1548,7 +1548,7 @@ class CodeGenerator:
 
                     # ------------------------------------------------------------
                     # Generate the code for function call
-                    print(line)
+                    # print(line)
                     words = line.split()
                     number_of_params = int(words[-1])
                     index = number_of_params - 1
@@ -1557,7 +1557,7 @@ class CodeGenerator:
                     # Code for loading the parameters
                     for i in range(number_of_params):
                         j = current_index - i - 1
-                        print(lines[j])
+                        # print(lines[j])
 
                         param_var = lines[j].split()[1]
 
@@ -1580,7 +1580,7 @@ class CodeGenerator:
                     reg0, spill0, update0 = self.get_reg(
                         False, live_and_next_use_blocks, blocks.index(block), subject)
 
-                    print("subject reg : ", subject, reg0)
+                    # print("subject reg : ", subject, reg0)
 
                     if spill0 == 1:
                         self.spill_reg(reg0)
@@ -1622,7 +1622,7 @@ class CodeGenerator:
 
                     # ------------------------------------------------------------
                     # Generate the code for function call
-                    print(line)
+                    # print(line)
                     words = line.split()
                     number_of_params = int(words[-1])
                     index = number_of_params - 1
@@ -1631,7 +1631,7 @@ class CodeGenerator:
                     # Code for loading the parameters
                     for i in range(number_of_params):
                         j = current_index - i - 1
-                        print(lines[j])
+                        # print(lines[j])
 
                         param_var = lines[j].split()[1]
 
@@ -1749,9 +1749,9 @@ class CodeGenerator:
 
                     else:
                         # For regular variables
-                        print("OUTPUT Variable", variable)
-                        print(self.address_descriptor)
-                        print(self.register_descriptor)
+                        # print("OUTPUT Variable", variable)
+                        # print(self.address_descriptor)
+                        # print(self.register_descriptor)
 
                         reg0, spill0, _ = self.get_reg(
                             data_type == 'float', live_and_next_use_blocks, blocks.index(block), variable)

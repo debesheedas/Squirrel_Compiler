@@ -4,8 +4,8 @@ import re
 class Preprocessor():
 
     def preprocess(self, filename, file, save=False):
-        #print ("preprocessing", file)
-        #print("Save the preprocessed file?", save)
+        ## print ("preprocessing", file)
+        ## print("Save the preprocessed file?", save)
         output = ""
 
         # ------------------------------------------------------------------------------
@@ -16,7 +16,7 @@ class Preprocessor():
             line = line.strip()
             if re.match("replace", line):
                 line = line.split(" ", 2)
-                # print(line)
+                # # print(line)
                 file = file.replace(line[1], line[2])
         # ------------------------------------------------------------------------------
         # 'import' implementation of preprocessor
@@ -25,10 +25,10 @@ class Preprocessor():
             line = line.strip()
             if re.match("import", line):
                 tokens = line.split(" ")
-                # print(tokens)
+                # # print(tokens)
                 import_file_name = tokens[3][1:-1]
                 function_name = tokens[1]
-                #print("importing file", import_file_name)
+                ## print("importing file", import_file_name)
                 try:
                     import_file_handle = open(
                         "./StandardLibrary/"+import_file_name, "r")
@@ -43,9 +43,9 @@ class Preprocessor():
                     pattern6 = "bool "+pattern
                     start_index = max(import_file.find(pattern1), import_file.find(pattern2), import_file.find(
                         pattern3), import_file.find(pattern4), import_file.find(pattern5), import_file.find(pattern6))
-                    # print(start_index)
+                    # # print(start_index)
                     end_index = import_file.find("#", start_index+1)
-                    # print(end_index)
+                    # # print(end_index)
                     imported_function = import_file[start_index:end_index]
                     output = imported_function + "\n" + output
                 except:
@@ -55,8 +55,8 @@ class Preprocessor():
             else:
                 output = output + "\n" + line
         # ------------------------------------------------------------------------------
-        #print("Preprocessed file:")
-        # print(output)
+        ## print("Preprocessed file:")
+        # # print(output)
 
         if save:
             filename = filename.split("/")[-1]

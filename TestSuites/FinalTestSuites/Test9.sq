@@ -1,0 +1,31 @@
+void @start(){
+    `` binary search ``
+    int arr[10] = {12,24,35,41,52,60,76,82,91,100};
+
+    int key;
+    output("Enter the key to search for: ");
+    input(key);
+
+    int low = 0;
+    int high = 9;
+    int mid;
+
+    while(low <= high){
+        mid = (low + high) / 2;
+        if(key == arr[mid]){
+            output("Found at index: ");
+            output(mid);
+            output("\n");
+            return;
+        }
+        elif (key < arr[mid]){
+            high = mid - 1;
+        }
+        else{
+            low = mid + 1;
+        }
+    }
+
+    output("Not found");
+    output("\n");
+}

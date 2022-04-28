@@ -40,10 +40,10 @@ class Parser(SlyParser):
 
     # def error(self, p):
     #     if p:
-    #         print("Syntax error at", p)
+    #         # print("Syntax error at", p)
     #         self.errok()
     #     else:
-    #         print("Syntax error at EOF")
+    #         # print("Syntax error at EOF")
 
     @staticmethod
     def custom_error(message="Syntax Error"):
@@ -130,7 +130,7 @@ class Parser(SlyParser):
             current_scope = self.scope_id_stack[i]
 
         if(len(res) == 1):
-            # print(res[0]["type"])
+            # # print(res[0]["type"])
             return res[0]["type"]
         else:
             Parser.custom_error(
@@ -138,10 +138,10 @@ class Parser(SlyParser):
 
     def check_function_signature(self, function_name, args_types):
 
-        # print("------------------------------\n\n")
+        # # print("------------------------------\n\n")
         # e = self.function_symbol_table[0]
-        # print(list(list(zip(*e["parameters_types"]))[0]))
-        # print("GGGG", args_types)
+        # # print(list(list(zip(*e["parameters_types"]))[0]))
+        # # print("GGGG", args_types)
 
         matched = list(filter(lambda e: e["function_name"] == "@"+function_name and
                               list(list(zip(*e["parameters_types"])
@@ -174,7 +174,7 @@ class Parser(SlyParser):
 
     def print_tree(self, root):
 
-        #print('\n--- Tree -------------------------------')
+        ## print('\n--- Tree -------------------------------')
 
         q = [root]
         curl = 1
@@ -204,7 +204,7 @@ class Parser(SlyParser):
             if curl == 0:
                 curl = nextl
                 nextl = 0
-                # print()
+                # # print()
 
         print('\n--- End Tree -------------------------------\n')
 
@@ -326,7 +326,7 @@ class Parser(SlyParser):
         head = AstNode(Operator.A_NODE, left=p.statements, right=p.statement)
         p.statements.parent = head
 
-        # print("parent : " + str(p.statements.parent.operator.value))
+        # # print("parent : " + str(p.statements.parent.operator.value))
 
         p.statement.parent = head
         return head
@@ -492,7 +492,7 @@ class Parser(SlyParser):
     # array_list -> constant
     @_("constant")
     def array_list(self, p):
-        #print("The const type", p.constant[0])
+        ## print("The const type", p.constant[0])
         if p.constant[0] == Operator.A_STRINGCONST:
             AstNode.raise_error(
                 "Semantic Error: String constants are not allowed in arrays")
@@ -501,7 +501,7 @@ class Parser(SlyParser):
 
     @_("MINUS constant")
     def array_list(self, p):
-        #print("The const type", p.constant[0])
+        ## print("The const type", p.constant[0])
         # semantic check here to not allow negative strings and chars
         if p.constant[0] == Operator.A_STRINGCONST:
             AstNode.raise_error(
@@ -515,14 +515,14 @@ class Parser(SlyParser):
 
     # @_("neg_int_constant")
     # def array_list(self, p):
-    #     #print("The const type", p.constant[0])
+    #     ## print("The const type", p.constant[0])
     #     data_type = self.type_checker.return_datatype(
     #         operator=p.neg_int_constant[0])
     #     return AstNode(Operator.A_ARR_LITERAL, left=p.neg_int_constant, data_type=data_type)
 
     # @_("neg_float_constant")
     # def array_list(self, p):
-    #     #print("The const type", p.constant[0])
+    #     ## print("The const type", p.constant[0])
     #     data_type = self.type_checker.return_datatype(
     #         operator=p.neg_float_constant[0])
     #     return AstNode(Operator.A_ARR_LITERAL, left=p.neg_float_constant, data_type=data_type)
@@ -674,7 +674,7 @@ class Parser(SlyParser):
     # case_statement -> CASE ( constant ) COLON statements
     @_('CASE LPAREN constant RPAREN COLON scope_open statements scope_close')
     def case_statement(self, p):
-        #print("P constant", p.constant[0])
+        ## print("P constant", p.constant[0])
         if p.constant[0] != Operator.A_INTCONST and p.constant[0] != Operator.A_CHARCONST:
             Parser.custom_error(
                 "Case statement variable must be of type int or char")
@@ -685,7 +685,7 @@ class Parser(SlyParser):
 
     @_('CASE LPAREN MINUS constant RPAREN COLON scope_open statements scope_close')
     def case_statement(self, p):
-        #print("P constant", p.constant[0])
+        ## print("P constant", p.constant[0])
         # semantic check here to not allow negative strings and chars
         if p.constant[0] != Operator.A_INTCONST and p.constant[0] != Operator.A_CHARCONST:
             Parser.custom_error(
@@ -824,7 +824,7 @@ class Parser(SlyParser):
 
     @_('MINUS expr %prec UMINUS')
     def expr(self, p):
-        #print("UNary check")
+        ## print("UNary check")
 
         data_type = self.type_checker.return_datatype(
             left_type=p.expr.data_type, operator=Operator.A_NEGATE)
@@ -848,7 +848,7 @@ class Parser(SlyParser):
 
     @_('expr AND expr')
     def expr(self, p):
-        # print('first',p.expr0.data_type,'second',p.expr1.data_type)
+        # # print('first',p.expr0.data_type,'second',p.expr1.data_type)
         data_type = self.type_checker.return_datatype(
             left_type=p.expr0.data_type, right_type=p.expr1.data_type, operator=Operator.A_AND)
         return AstNode(Operator.A_AND, left=p.expr0, right=p.expr1, data_type=data_type)
@@ -895,14 +895,14 @@ class Parser(SlyParser):
     # expr -> constant
     @_('constant')
     def expr(self, p):
-        #print("The const type", p.constant[0])
+        ## print("The const type", p.constant[0])
         data_type = self.type_checker.return_datatype(operator=p.constant[0])
         # p.constant = [Operator.A_CHARCONST, 't'] for a character
         return AstNode(p.constant[0], value=p.constant[1], data_type=data_type)
 
     # @_('neg_int_constant')
     # def expr(self, p):
-    #     #print("The const type", p.constant[0])
+    #     ## print("The const type", p.constant[0])
     #     data_type = self.type_checker.return_datatype(
     #         operator=p.neg_int_constant[0])
     #     # p.constant = [Operator.A_CHARCONST, 't'] for a character
@@ -910,7 +910,7 @@ class Parser(SlyParser):
 
     # @_('neg_float_constant')
     # def expr(self, p):
-    #     #print("The const type", p.constant[0])
+    #     ## print("The const type", p.constant[0])
     #     data_type = self.type_checker.return_datatype(
     #         operator=p.neg_float_constant[0])
     #     # p.constant = [Operator.A_CHARCONST, 't'] for a character
@@ -966,7 +966,7 @@ class Parser(SlyParser):
     # @_('MINUS INTVAL')
     # def neg_int_constant(self, p):
     #     # return AstNode(Operator.A_INTCONST, value=p.INTVAL)
-    #     print("minus here")
+    #     # print("minus here")
     #     return [Operator.A_INTCONST, "-"+str(p.INTVAL)]
 
     @_('FLOATVAL')
@@ -1008,7 +1008,7 @@ class Parser(SlyParser):
             cur = cur.right
         args_types.append(cur.data_type)
 
-        # print("LOOK HERE : ", parameters)
+        # # print("LOOK HERE : ", parameters)
 
         # Semantic check for function calls
         self.check_function_signature(p.VARNAME, args_types)
@@ -1021,7 +1021,7 @@ class Parser(SlyParser):
                               self.function_symbol_table))
 
         return_type = matched[0]["return_type"]
-        print("matched : ", matched)
+        # print("matched : ", matched)
         # -----------------------
         head = AstNode(Operator.A_FUNCCALL, left=p.VARNAME,
                        right=p.argument_list, data_type=return_type)
@@ -1053,10 +1053,10 @@ class Parser(SlyParser):
 
     # def error(self, p):
         # if p:
-        #print("Syntax error at line", p.lineno, "| TOKEN:", p.value)
+        ## print("Syntax error at line", p.lineno, "| TOKEN:", p.value)
         #
         # else:
-        #print("Syntax error at EOF")
+        ## print("Syntax error at EOF")
         #raise Exception('Syntax error')
 
 

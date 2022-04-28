@@ -2,6 +2,10 @@
 	arr__2:
 		.float 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0
 
+__t12:
+	.asciiz " "
+__t13:
+	.asciiz "\n"
 .text
 .globl main
 
@@ -10,80 +14,53 @@ main:
 move $s8, $sp
 
 li $t0, 0
-li $t1, 3
-mult $t0, $t1
-mflo $t1
-li $t2, 0
-li $t3, 1
-mult $t2, $t3
-mflo $t3
-add $t4, $t1, $t3
-li $t5, 4
-mult $t4, $t5
-mflo $t5
-li $t6, 1
-li $t7, 3
-mult $t6, $t7
+addi $t1, $t0, 0
+_L9:
+li $t2, 3
+sub $t3, $t1, $t2
+blt $t3, $zero, _L10
+j _L7
+_L10:
+li $t3, 0
+addi $t4, $t3, 0
+_L18:
+li $t5, 3
+sub $t6, $t4, $t5
+blt $t6, $zero, _L19
+j _L16
+_L19:
+li $t6, 3
+mult $t1, $t6
+mflo $t6
+li $t7, 1
+mult $t4, $t7
 mflo $t7
-li $s0, 1
-li $s1, 1
+add $s0, $t6, $t7
+li $s1, 4
 mult $s0, $s1
 mflo $s1
-add $s2, $t7, $s1
-li $s3, 4
-mult $s2, $s3
-mflo $s3
-l.s $f3, arr__2($s3)
-li $s4, 2
-li $s5, 3
-mult $s4, $s5
-mflo $s5
-li $s6, 2
-li $s7, 1
-mult $s6, $s7
-mflo $s7
-add $t8, $s5, $s7
-li $t9, 4
-mult $t8, $t9
-mflo $t9
-l.s $f4, arr__2($t9)
-add.s $f5, $f3, $f4
-mov.s $f6, $f5
-s.s $f6, arr__2($t5)
-addi $sp, $sp, -4
-sw $t1, 4($sp)
-li $t1, 0
-addi $sp, $sp, -4
-sw $t3, 4($sp)
-sw $t3, -4($s8)
-li $t3, 3
-li $t3, 3
-mult $t1, $t3
-mflo $t3
-addi $sp, $sp, -4
-sw $t5, 4($sp)
-li $t5, 0
-addi $sp, $sp, -4
-sw $t7, 4($sp)
-sw $t7, -12($s8)
-li $t7, 1
-li $t7, 1
-mult $t5, $t7
-mflo $t7
-addi $sp, $sp, -4
-sw $s1, 4($sp)
-add $s1, $t3, $t7
-addi $sp, $sp, -4
-sw $s4, 4($sp)
-sw $s4, -20($s8)
-li $s4, 4
-li $s4, 4
-mult $s1, $s4
-mflo $s4
-l.s $f7, arr__2($s4)
-mov.s $f12, $f7
+l.s $f3, arr__2($s1)
+mov.s $f12, $f3
 li $v0, 2
 syscall
+la $s2, __t12
+li $v0, 4
+la $a0, __t12
+syscall
+li $s3, 1
+add $s4, $t4, $s3
+addi $t4, $s4, 0
+j _L18
+_L16:
+la $s5, __t13
+li $v0, 4
+la $a0, __t13
+syscall
+li $s6, 1
+add $s7, $t1, $s6
+addi $t1, $s7, 0
+j _L9
+_L7:
 move $sp, $s8
 jr $ra
 

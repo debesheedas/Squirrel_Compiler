@@ -1,0 +1,59 @@
+void @start() {
+    int a = 10;
+    int b = 20;
+    int c = 3;
+    int d = 4;
+    int e = 5;
+    int f = 6;
+    int g = 7;
+    int h = 8;
+    int i = 9;
+    int j = 10;
+    int k = 11;
+
+    if (a == 10) {
+        if (b == 20) {
+            if (c == 3) {
+                if (d == 4) {
+                    if (e == 5) {
+                        if (f == 6) {
+                            if (g == 7) {
+                                if (h == 8) {
+                                    if (i == 9) {
+                                        if (j == 10) {
+                                            if (k == 11) {
+                                                output("YES");
+                                            } else {
+                                                
+                                            }
+                                        } else {
+                                            
+                                        }
+                                    } else {
+                                        
+                                }
+                                } else {
+                                    
+                                }
+                            } else {
+                                
+                            }
+                        } else {
+                            
+                        }
+                    } else {
+                        
+                    }
+                } else {
+                    
+                }
+            } else {
+
+            }
+        } else {
+
+        }
+    } else {
+        output("NO");
+    }
+}

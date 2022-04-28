@@ -75,7 +75,7 @@ def compile(filename, optimization_level, save_preprocessed_file, save_intermedi
 
 
 def main(*argv):
-    #print('Arguments:', argv[0])
+    ## print('Arguments:', argv[0])
     argv = argv[0]
     optimization_level = 3
     if '-O1' in argv:
@@ -84,26 +84,26 @@ def main(*argv):
         optimization_level = 2
     elif '-O3' in argv:
         optimization_level = 3
-    #print("Optimizatioin level = ", optimization_level)
+    ## print("Optimizatioin level = ", optimization_level)
 
     save_preprocessed_file = False
     save_intermediate_code = False
     if '-p' in argv:
         save_preprocessed_file = True
-        #print("Need to save preprocessed file.")
+        ## print("Need to save preprocessed file.")
     if '-i' in argv:
         save_intermediate_code = True
-        #print("Need to save intermediate code file.")
+        ## print("Need to save intermediate code file.")
 
     for arg in argv:
         if arg.endswith('.sq'):
             filename = arg
-            #print("Name of the file being compiled = ", filename)
-            # print("Compiling...")
+            ## print("Name of the file being compiled = ", filename)
+            # # print("Compiling...")
             compile(filename, optimization_level,
                     save_preprocessed_file, save_intermediate_code)
 
 
 if __name__ == "__main__":
-    #print("printing sys.argv", sys.argv)
+    ## print("# printing sys.argv", sys.argv)
     main(sys.argv)

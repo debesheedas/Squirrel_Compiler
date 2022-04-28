@@ -230,7 +230,7 @@ elif self.is_arithmetic_instruction_binary(line):
 
                 elif self.is_arithmetic_instruction_unary(line):
                     # TODO: check for type casting
-                    print("line : ", line)
+                    # print("line : ", line)
                     subject, operand = line.split()[0], line.split()[2]
 
                     reg0, spill0 = self.get_reg(False,

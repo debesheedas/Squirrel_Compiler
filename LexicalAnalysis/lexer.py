@@ -72,7 +72,7 @@ class Lexer(SlyLexer):
     VARNAME['fuzzy'] = FUZZY
 
     def error(self, t):
-        print("----Illegal character '%s'----" % t.value[0])
+        # print("----Illegal character '%s'----" % t.value[0])
         self.index += 1
 
 

@@ -15,9 +15,10 @@ int @fibonacci (int n)
         
 }
 void @start() {
-	int n = 12;
+	int n;
+    output("Enter n: ");
+    input(n);
 	int a = fibonacci(n);
     output(a);
     output("\n");
-
 }

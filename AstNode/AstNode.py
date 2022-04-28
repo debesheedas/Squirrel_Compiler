@@ -113,7 +113,7 @@ class AstNode:
         self.code = None
         self.next = next_label
 
-        # print("Value", self.value, "Datatype", self.data_type)
+        # # print("Value", self.value, "Datatype", self.data_type)
         # self.parent = parent
     @staticmethod
     def raise_error(message=None):
@@ -165,7 +165,7 @@ class AstNode:
         # --------------------------------------------------
 
         elif head.operator == Operator.A_NODE:
-            # print(head.operator.value + " ?")
+            # # print(head.operator.value + " ?")
 
             left, right = head.left, head.right
 
@@ -221,7 +221,7 @@ class AstNode:
                 head.code = left.code + '\n' + right.code
                 label1 = parser.get_new_label()
                 label2 = parser.get_new_label()
-                # print(left.data_type, right.data_type, head.data_type)
+                # # print(left.data_type, right.data_type, head.data_type)
                 typecast_variable_left = left.value
                 typecast_variable_right = right.value
                 if left.data_type != 'int':
@@ -491,7 +491,7 @@ class AstNode:
 
         elif head.operator == Operator.A_SWITCHPARENT or head.operator == Operator.A_IFPARENT or head.operator == Operator.A_FORPARENT:
 
-            # print(head.operator.value + " ?")
+            # # print(head.operator.value + " ?")
             left = head.left
 
             head.next = parser.get_new_label()
@@ -510,12 +510,12 @@ class AstNode:
             head.value = left
             right.value = head.value
             right.next = head.next
-            # print('a_switch', right.next)
+            # # print('a_switch', right.next)
 
             AstNode.generateCode(right, parser)
 
             head.code = right.code
-            # print('abc', right.code)
+            # # print('abc', right.code)
 
         # ------------------------------------------------------------
 
@@ -745,7 +745,7 @@ class AstNode:
             # head.code = expr0.code + "\n" + expr1.code + "\n" + \
             # head.value + " = " + expr0.value + " / " + expr1.value
 
-            # print('1', expr0.code, '2', expr1.code)
+            # # print('1', expr0.code, '2', expr1.code)
             head.code = expr0.code + "\n" + expr1.code + "\n"
 
             if head.data_type != expr0.data_type:
@@ -857,7 +857,7 @@ class AstNode:
                 # head.value["val"] = parser.get_new_temp(head.data_type)
                 head.value["val"] = parser.get_new_temp("int")
 
-                # print("eye catchy : " , head.data_type)
+                # # print("eye catchy : " , head.data_type)
 
                 index = head.value["index"]
                 variable = list(filter(
@@ -885,8 +885,8 @@ class AstNode:
                 ))
                 i = index
                 dimension = 1
-                # print("i", index)
-                # print(variable[0]["dimension"])
+                # # print("i", index)
+                # # print(variable[0]["dimension"])
                 for j in range(i, len(variable[0]["dimension"])):
                     dimension *= variable[0]["dimension"][j]
 
@@ -1033,7 +1033,7 @@ class AstNode:
         # --------------------------------------------------------------------
 
         elif head.operator == Operator.A_INTCONST or head.operator == Operator.A_STRINGCONST or head.operator == Operator.A_CHARCONST:
-            # print("helloworld", head.value)
+            # # print("helloworld", head.value)
             t0 = parser.get_new_temp("int")
             head.code = f"{t0} = {head.value}\n"
             head.value = t0
@@ -1048,7 +1048,7 @@ class AstNode:
         elif head.operator == Operator.A_BOOL:
 
             left = head.left
-            # print('unique here', left.value)
+            # # print('unique here', left.value)
 
             AstNode.generateCode(left, parser)
             temp_false = "" if head.false is None else "\ngoto " + head.false
@@ -1058,7 +1058,7 @@ class AstNode:
                     left.operator == Operator.A_MULTIPLY or left.operator == Operator.A_DIVIDE or \
                     left.operator == Operator.A_MODULO:
 
-                # print("left.code", left.value is one)
+                # # print("left.code", left.value is one)
                 t0 = parser.get_new_temp("int")
                 head.code = f"{t0} = 0\n"
                 head.code += left.code + "\n" + "if " + left.value + \
@@ -1097,7 +1097,7 @@ class AstNode:
 
             cur = head
             while cur.operator != Operator.A_FUNC:
-                print(cur.operator)
+                # print(cur.operator)
                 cur = cur.parent
 
             if (left != None and left.data_type != cur.value["return_type"]):
@@ -1138,7 +1138,7 @@ class AstNode:
             if head.data_type == "void":
                 head.code = ""
             else:
-                # print("HHHEEE : ", head.data_type)
+                # # print("HHHEEE : ", head.data_type)
                 head.value = parser.get_new_temp(head.data_type)
                 head.code = f"{head.value} = "
 
@@ -1168,8 +1168,8 @@ class AstNode:
                     head.code += f"{head.value} = call {function_name}, 0\n"
                 # head.code += f"call {function_name}, 0\n"
 
-            # print("CODEEEE : ", head.code)
-            # print("end -----------------")
+            # # print("CODEEEE : ", head.code)
+            # # print("end -----------------")
 
         elif head.operator == Operator.A_TYPECAST:
 
@@ -1187,7 +1187,7 @@ class AstNode:
             left_value = head.left
 
             if left_value.operator == Operator.A_VARIABLE:
-                # print(left_value.value)
+                # # print(left_value.value)
                 # data_type = parser.get_data_type(left_value.value)
                 head.code = f"input {left_value.data_type}, {left_value.value}\n"
             else:
@@ -1234,7 +1234,7 @@ class AstNode:
                 head.value = t0
                 head.code += f"output {left_value[0].value.split(' ')[0]}, {head.value}\n"
             elif left_value.operator == Operator.A_VARIABLE:
-                # print(left_value.value)
+                # # print(left_value.value)
                 # data_type = parser.get_data_type(left_value.value)
                 if left_value.data_type != "bool":
                     head.code = f"output {left_value.data_type}, {left_value.value}\n"
@@ -1260,7 +1260,7 @@ class AstNode:
                 # while cur.left:
                 cur = cur.left
 
-                # print(cur.value, "BAR")
+                # # print(cur.value, "BAR")
 
                 head.code = left_value.code
                 # handle differently for BOOL !
