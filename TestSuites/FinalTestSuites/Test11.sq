@@ -1,8 +1,12 @@
 `` fibonacci iterative ``
+
 int @fibonacci(int n) {
     int a = 0;
     int b = 1;
     int c = 0;
+    if(n == 1 || n == 2){
+        return 1;
+    }
     for (int i = 0; i < n; i = i + 1) {
         c = a + b;
         a = b;
@@ -13,8 +17,6 @@ int @fibonacci(int n) {
 }
 
 void @start() {
-    output("Fibonacci iterative\n");
-
     int n;
     output("Enter a number: ");
 

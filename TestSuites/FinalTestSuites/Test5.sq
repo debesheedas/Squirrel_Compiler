@@ -10,9 +10,4 @@ void @start() {
         }
         output("\n");
     }
-
-
-    ``arr[0][0] = arr[1][1] + arr[2][2];
-    output(arr[0][0]);
-    output("\n");``
 }

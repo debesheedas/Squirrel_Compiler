@@ -1,0 +1,23 @@
+int @factorial(int n){
+    int r = 1;
+    for(int i=1; i<=n; i=i+1){
+        r = r * i;
+    }
+    return r;
+
+    output("this part is not reachable");
+}
+
+void @start(){
+    int r = factorial(5);
+    output(r);
+    output("\n");
+    return;
+
+    ``dead code``
+
+    int x = 2;
+    int y = 3;
+    int z = x + y;
+    output(z);
+}
